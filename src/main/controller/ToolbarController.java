@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import utility.Logger;
 
@@ -51,7 +50,7 @@ public class ToolbarController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(toolbarPopUpFxmlFile.toURI().toURL());
             fxmlLoader.setController(new ToolbarPopUpController());
-            toolbarPopUp = new JFXPopup(fxmlLoader.<Region>load());
+            toolbarPopUp = new JFXPopup(fxmlLoader.load());
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
@@ -62,7 +61,7 @@ public class ToolbarController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(viewOptionsPopUpFxmlFile.toURI().toURL());
             fxmlLoader.setController(new ViewOptionsPopUpController());
-            viewPopUp = new JFXPopup(fxmlLoader.<Region>load());
+            viewPopUp = new JFXPopup(fxmlLoader.load());
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
