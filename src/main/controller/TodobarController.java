@@ -12,9 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import model.Task;
-import ui.EditTask;
-import ui.ListView;
-import ui.PomoTodoApp;
 import utility.Logger;
 
 import java.io.File;
@@ -26,6 +23,8 @@ import java.util.ResourceBundle;
 public class TodobarController implements Initializable {
     private static final String todoOptionsPopUpFXML = "resources/fxml/TodoOptionsPopUp.fxml";
     private static final String todoActionsPopUpFXML = "resources/fxml/TodoActionsPopUp.fxml";
+    private File todoOptionsPopUpFxmlFile = new File(todoOptionsPopUpFXML);
+    private File todoActionsPopUpFxmlFile = new File(todoActionsPopUpFXML);
     
     @FXML
     private Label descriptionLabel;
@@ -39,6 +38,9 @@ public class TodobarController implements Initializable {
     private StackPane todoOptionsPopUpBurger;
     
     private Task task;
+
+    private JFXPopup todoOptionsPopUp;
+    private JFXPopup todoActionsPopUp;
     
     // REQUIRES: task != null
     // MODIFIES: this
@@ -52,5 +54,105 @@ public class TodobarController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO: complete this method
+        loadToDoOptionsPopUp();
+        loadToDoOptionsPopUpActionListener();
+        loadToDoActionsPopUp();
+        loadToDoActionsPopUpActionListener();
+    }
+
+    private void loadToDoOptionsPopUp() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(todoOptionsPopUpFxmlFile.toURI().toURL());
+            fxmlLoader.setController(new ToDoOptionsPopUpController());
+            todoOptionsPopUp = new JFXPopup(fxmlLoader.load());
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    private void loadToDoOptionsPopUpActionListener() {
+        todoOptionsPopUpBurger.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                todoOptionsPopUp.show(todoOptionsPopUpBurger,
+                        JFXPopup.PopupVPosition.TOP,
+                        JFXPopup.PopupHPosition.RIGHT,
+                        -12,
+                        15);
+            }
+        });
+    }
+
+    private void loadToDoActionsPopUp() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(todoActionsPopUpFxmlFile.toURI().toURL());
+            fxmlLoader.setController(new ToDoActionsPopUpController());
+            todoActionsPopUp = new JFXPopup(fxmlLoader.load());
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
+    private void loadToDoActionsPopUpActionListener() {
+        todoActionsPopUpBurger.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                todoActionsPopUp.show(todoActionsPopUpBurger,
+                        JFXPopup.PopupVPosition.TOP,
+                        JFXPopup.PopupHPosition.LEFT,
+                        12,
+                        15);
+            }
+        });
+    }
+
+    // Inner class: actions selector pop up controller
+    class ToDoActionsPopUpController {
+        @FXML
+        private JFXListView<?> actionsPopUpList;
+
+        @FXML
+        private void submit() {
+            int selectedIndex = actionsPopUpList.getSelectionModel().getSelectedIndex();
+            switch (selectedIndex) {
+                case 0:
+                    Logger.log("ToDoActionsPopUpController", "Functions not implemented yet...");
+                    break;
+                case 1:
+                    Logger.log("ToDoActionsPopUpController", "Functions not implemented yet...");
+                    break;
+                case 2:
+                    Logger.log("ToDoActionsPopUpController", "Functions not implemented yet...");
+                    break;
+                case 3:
+                    Logger.log("ToDoActionsPopUpController", "Functions not implemented yet...");
+                    break;
+                default:
+                    Logger.log("ToDoActionsPopUpController", "Functions not implemented yet...");
+            }
+            todoActionsPopUp.hide();
+        }
+    }
+
+    // Inner class: options selector pop up controller
+    class ToDoOptionsPopUpController {
+        @FXML
+        private JFXListView<?> optionsPopUpList;
+
+        @FXML
+        private void submit() {
+            int selectedIndex = optionsPopUpList.getSelectionModel().getSelectedIndex();
+            switch (selectedIndex) {
+                case 0:
+                    Logger.log("ToDoOptionsPopUpController", "Functions not implemented yet...");
+                    break;
+                case 1:
+                    Logger.log("ToDoOptionsPopUpController", "Functions not implemented yet...");
+                    break;
+                default:
+                    Logger.log("ToDoOptionsPopUpController", "Functions not implemented yet...");
+            }
+            todoOptionsPopUp.hide();
+        }
     }
 }
