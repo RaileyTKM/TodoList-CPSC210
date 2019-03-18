@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXRippler;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,11 +13,15 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import model.Task;
+import ui.EditTaskDemo;
+import ui.ListView;
+import ui.PomoTodoApp;
 import utility.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 // Controller class for Todobar UI
@@ -109,11 +114,11 @@ public class TodobarController implements Initializable {
     // Inner class: actions selector pop up controller
     class ToDoActionsPopUpController {
         @FXML
-        private JFXListView<?> actionsPopUpList;
+        private JFXListView<?> actionPopUpList;
 
         @FXML
         private void submit() {
-            int selectedIndex = actionsPopUpList.getSelectionModel().getSelectedIndex();
+            int selectedIndex = actionPopUpList.getSelectionModel().getSelectedIndex();
             switch (selectedIndex) {
                 case 0:
                     Logger.log("ToDoActionsPopUpController", "Functions not implemented yet...");
@@ -137,22 +142,39 @@ public class TodobarController implements Initializable {
     // Inner class: options selector pop up controller
     class ToDoOptionsPopUpController {
         @FXML
-        private JFXListView<?> optionsPopUpList;
+        private JFXListView<?> optionPopUpList;
 
         @FXML
         private void submit() {
-            int selectedIndex = optionsPopUpList.getSelectionModel().getSelectedIndex();
+            int selectedIndex = optionPopUpList.getSelectionModel().getSelectedIndex();
             switch (selectedIndex) {
                 case 0:
-                    Logger.log("ToDoOptionsPopUpController", "Functions not implemented yet...");
+                    Logger.log("ToDoOptionsPopUpController", "Edit task.");
+                    handleEditApp();
                     break;
                 case 1:
-                    Logger.log("ToDoOptionsPopUpController", "Functions not implemented yet...");
+                    Logger.log("ToDoOptionsPopUpController", "Task deleted.");
+                    List<Task> newList = PomoTodoApp.getTasks();
+                    newList.remove(task);
+                    PomoTodoApp.setScene(new ListView(newList));
                     break;
                 default:
                     Logger.log("ToDoOptionsPopUpController", "Functions not implemented yet...");
             }
             todoOptionsPopUp.hide();
+        }
+
+        private void handleEditApp() {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        new EditTaskDemo().start(PomoTodoApp.getPrimaryStage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
     }
 }
