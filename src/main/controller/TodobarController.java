@@ -13,9 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import model.Task;
+import ui.EditTask;
 import ui.EditTaskDemo;
 import ui.ListView;
 import ui.PomoTodoApp;
+import utility.JsonFileIO;
 import utility.Logger;
 
 import java.io.File;
@@ -150,12 +152,13 @@ public class TodobarController implements Initializable {
             switch (selectedIndex) {
                 case 0:
                     Logger.log("ToDoOptionsPopUpController", "Edit task.");
-                    handleEditApp();
+                    PomoTodoApp.setScene(new EditTask(task));
                     break;
                 case 1:
                     Logger.log("ToDoOptionsPopUpController", "Task deleted.");
                     List<Task> newList = PomoTodoApp.getTasks();
                     newList.remove(task);
+                    JsonFileIO.write(newList);
                     PomoTodoApp.setScene(new ListView(newList));
                     break;
                 default:
@@ -164,17 +167,5 @@ public class TodobarController implements Initializable {
             todoOptionsPopUp.hide();
         }
 
-        private void handleEditApp() {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        new EditTaskDemo().start(PomoTodoApp.getPrimaryStage());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
     }
 }

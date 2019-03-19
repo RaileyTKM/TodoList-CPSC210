@@ -38,7 +38,6 @@ public class JsonFileIO {
     // EFFECTS: saves the tasks to jsonDataFile
     public static void write(List<Task> tasks) {
 
-
         try (FileWriter file = new FileWriter(jsonDataFile)) {
 
             JSONArray array = Jsonifier.taskListToJson(tasks);
