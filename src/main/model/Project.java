@@ -51,7 +51,7 @@ public class Project extends Todo {
     }
 
     // EFFECTS: returns an unmodifiable list of tasks in this project.
-    public List<Todo> getTasks() {
+    public List<Task> getTasks() {
         throw new UnsupportedOperationException();
     }
 

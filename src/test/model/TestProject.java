@@ -221,12 +221,12 @@ public class TestProject {
         list.add(t1);
         list.add(t2);
         assertEquals(2, project.getNumberOfTasks());
-//        try {
-//            project.getTasks();
-//            fail("UnsupportedOperationException expected");
-//        } catch (Exception e) {
-//            // expected
-//        }
+        try {
+            project.getTasks();
+            fail("UnsupportedOperationException expected");
+        } catch (Exception e) {
+            // expected
+        }
     }
 
     @Test
