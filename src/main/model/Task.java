@@ -243,8 +243,8 @@ public class Task extends Todo {
         }
     }
 
-    @Override
-    public Iterator<Todo> iterator() {
-        return null;
-    }
+//    @Override
+//    public Iterator<Todo> iterator() {
+//        return null;
+//    }
 }

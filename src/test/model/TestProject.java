@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static model.Status.DONE;
-import static model.Status.TODO;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestProject {
@@ -262,23 +260,23 @@ public class TestProject {
         assertEquals(project.getNumberOfTasks(), 0);
     }
 
-    @Test
-    public void testWooooooow() {
-        Task t1 = new Task("t1");
-        Task t2 = new Task("t2");
-        Task t3 = new Task("t3");
-        Project p1 = new Project("p1");
-        t1.setEstimatedTimeToComplete(10);
-        t2.setEstimatedTimeToComplete(20);
-        t3.setEstimatedTimeToComplete(5);
-        p1.add(t1);
-        p1.add(t2);
-        p1.setPriority(new Priority(1));
-        project.add(t3);
-        project.add(p1);
-        for (Todo t : project) {
-            System.out.println(t.toString());
-        }
-    }
+//    @Test
+//    public void testWooooooow() {
+//        Task t1 = new Task("t1");
+//        Task t2 = new Task("t2");
+//        Task t3 = new Task("t3");
+//        Project p1 = new Project("p1");
+//        t1.setEstimatedTimeToComplete(10);
+//        t2.setEstimatedTimeToComplete(20);
+//        t3.setEstimatedTimeToComplete(5);
+//        p1.add(t1);
+//        p1.add(t2);
+//        p1.setPriority(new Priority(1));
+//        project.add(t3);
+//        project.add(p1);
+//        for (Todo t : project) {
+//            System.out.println(t.toString());
+//        }
+//    }
 
 }

@@ -4,7 +4,7 @@ package model;
 import model.exceptions.EmptyStringException;
 import model.exceptions.NullArgumentException;
 
-public abstract class Todo implements Iterable<Todo> {
+public abstract class Todo {
     protected String description;
     protected int progress;
     protected int etcHours;  // Estimated Time To Complete

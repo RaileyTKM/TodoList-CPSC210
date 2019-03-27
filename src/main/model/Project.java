@@ -118,99 +118,99 @@ public class Project extends Todo {
         return Objects.hash(description);
     }
 
-    @Override
-    public Iterator<Todo> iterator() {
-        return new ProjectIterator();
-    }
-
-
-    private class ProjectIterator implements Iterator<Todo> {
-        private Iterator<Todo> tasksIT;
-        private boolean important;
-        private boolean urgent;
-        private Priority priority;
-        private Todo toReturn;
-
-        public ProjectIterator() {
-            tasksIT = tasks.iterator();
-            important = true;
-            urgent = true;
-            priority = new Priority();
-            priority.setImportant(true);
-            priority.setUrgent(true);
-        }
-
-        @Override
-        public boolean hasNext() {
-            return tasksIT.hasNext() && important && urgent;
-        }
-
-        @Override
-        public Todo next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            if (important && urgent) {
-                updateToReturn1();
-            } else if (important && !urgent) {
-                updatePriority();
-                updateToReturn2();
-            } else if (!important && urgent) {
-                updatePriority();
-                updateToReturn3();
-            } else {
-                updatePriority();
-                updateToReturn4();
-            }
-            return toReturn;
-        }
-
-        private void updatePriority() {
-            priority.setImportant(important);
-            priority.setUrgent(urgent);
-        }
-
-        private void updateToReturn1() {
-            if (tasksIT.next().getPriority().equals(priority)) {
-                toReturn = tasksIT.next();
-            } else if (!tasksIT.hasNext()) {
-                tasksIT = tasks.iterator();
-                urgent = !urgent;
-                toReturn = next();
-            } else {
-                toReturn = next();
-            }
-        }
-
-        private void updateToReturn2() {
-            if (tasksIT.next().getPriority().equals(priority)) {
-                toReturn = tasksIT.next();
-            } else if (!tasksIT.hasNext()) {
-                tasksIT = tasks.iterator();
-                urgent = !urgent;
-                important = !important;
-                toReturn = next();
-            } else {
-                toReturn = next();
-            }
-        }
-
-        private void updateToReturn3() {
-            if (tasksIT.next().getPriority().equals(priority)) {
-                toReturn = tasksIT.next();
-            } else if (!tasksIT.hasNext()) {
-                tasksIT = tasks.iterator();
-                urgent = !urgent;
-                toReturn = next();
-            } else {
-                toReturn = next();
-            }
-        }
-
-        private void updateToReturn4() {
-            if (tasksIT.next().getPriority().equals(priority) && tasksIT.hasNext()) {
-                toReturn = tasksIT.next();
-            }
-        }
-    }
+//    @Override
+//    public Iterator<Todo> iterator() {
+//        return new ProjectIterator();
+//    }
+//
+//
+//    private class ProjectIterator implements Iterator<Todo> {
+//        private Iterator<Todo> tasksIT;
+//        private boolean important;
+//        private boolean urgent;
+//        private Priority priority;
+//        private Todo toReturn;
+//
+//        public ProjectIterator() {
+//            tasksIT = tasks.iterator();
+//            important = true;
+//            urgent = true;
+//            priority = new Priority();
+//            priority.setImportant(true);
+//            priority.setUrgent(true);
+//        }
+//
+//        @Override
+//        public boolean hasNext() {
+//            return tasksIT.hasNext() && important && urgent;
+//        }
+//
+//        @Override
+//        public Todo next() {
+//            if (!hasNext()) {
+//                throw new NoSuchElementException();
+//            }
+//            if (important && urgent) {
+//                updateToReturn1();
+//            } else if (important && !urgent) {
+//                updatePriority();
+//                updateToReturn2();
+//            } else if (!important && urgent) {
+//                updatePriority();
+//                updateToReturn3();
+//            } else {
+//                updatePriority();
+//                updateToReturn4();
+//            }
+//            return toReturn;
+//        }
+//
+//        private void updatePriority() {
+//            priority.setImportant(important);
+//            priority.setUrgent(urgent);
+//        }
+//
+//        private void updateToReturn1() {
+//            if (tasksIT.next().getPriority().equals(priority)) {
+//                toReturn = tasksIT.next();
+//            } else if (!tasksIT.hasNext()) {
+//                tasksIT = tasks.iterator();
+//                urgent = !urgent;
+//                toReturn = next();
+//            } else {
+//                toReturn = next();
+//            }
+//        }
+//
+//        private void updateToReturn2() {
+//            if (tasksIT.next().getPriority().equals(priority)) {
+//                toReturn = tasksIT.next();
+//            } else if (!tasksIT.hasNext()) {
+//                tasksIT = tasks.iterator();
+//                urgent = !urgent;
+//                important = !important;
+//                toReturn = next();
+//            } else {
+//                toReturn = next();
+//            }
+//        }
+//
+//        private void updateToReturn3() {
+//            if (tasksIT.next().getPriority().equals(priority)) {
+//                toReturn = tasksIT.next();
+//            } else if (!tasksIT.hasNext()) {
+//                tasksIT = tasks.iterator();
+//                urgent = !urgent;
+//                toReturn = next();
+//            } else {
+//                toReturn = next();
+//            }
+//        }
+//
+//        private void updateToReturn4() {
+//            if (tasksIT.next().getPriority().equals(priority) && tasksIT.hasNext()) {
+//                toReturn = tasksIT.next();
+//            }
+//        }
+//    }
 }
