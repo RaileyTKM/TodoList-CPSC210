@@ -242,4 +242,9 @@ public class Task extends Todo {
             etcHours = hours;
         }
     }
+
+    @Override
+    public Iterator<Todo> iterator() {
+        return null;
+    }
 }

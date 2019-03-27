@@ -56,6 +56,19 @@ class TestTask {
     @Test
     public void testTwoTasksEqual() {
         assertEquals(new Task("new task"), task);
+        task.setStatus(Status.UP_NEXT);
+        assertNotEquals(new Task("new task"), task);
+
+        task = new Task("new task");
+        Task t1 = new Task("new task");
+        t1.setDueDate(new DueDate(GregorianCalendar.getInstance().getTime()));
+        assertNotEquals(t1, task);
+
+        task = new Task("new task");
+        Task t2 = new Task("new task");
+        t2.setPriority(new Priority(2));
+        assertNotEquals(t2, task);
+
         assertFalse(task.equals(new Task("another task")));
         assertTrue(task.equals(task));
         assertFalse(task.equals(new Tag("what")));
@@ -317,6 +330,13 @@ class TestTask {
         } catch (Exception e) {
             //expected
         }
+        String name = null;
+        try {
+            task.containsTag(name);
+            fail("EmptyStringException expected");
+        } catch (Exception e) {
+            //expected
+        }
     }
 
     @Test
@@ -454,6 +474,12 @@ class TestTask {
         }
         try {
             task.setProgress(120);
+            fail("InvalidProgressException expected");
+        } catch (InvalidProgressException e) {
+            // expected
+        }
+        try {
+            task.setProgress(-20);
             fail("InvalidProgressException expected");
         } catch (InvalidProgressException e) {
             // expected

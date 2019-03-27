@@ -149,7 +149,7 @@ public class TestProject {
 
     @Test
     public void testGet0Progress() {
-        assertEquals(100, project.getProgress());
+        assertEquals(0, project.getProgress());
         Task t1 = new Task("t1");
         Task t2 = new Task("t2");
         project.add(t1);
@@ -159,22 +159,24 @@ public class TestProject {
 
     @Test
     public void testGetSomeProgress() {
-        assertEquals(100, project.getProgress());
+        assertEquals(0, project.getProgress());
         Task t1 = new Task("t1");
         Task t2 = new Task("t2");
-        assertEquals(TODO, t1.getStatus());
-        t1.setStatus(DONE);
+        t2.setProgress(100);
         project.add(t1);
         project.add(t2);
         assertEquals(50, project.getProgress());
+        t1.setProgress(50);
+        t2.setProgress(25);
+        assertEquals(37, project.getProgress());
     }
 
     @Test
     public void testGet100Progress() {
         Task t1 = new Task("t1");
         Task t2 = new Task("t2");
-        t1.setStatus(Status.DONE);
-        t2.setStatus(Status.DONE);
+        t1.setProgress(100);
+        t2.setProgress(100);
         project.add(t1);
         project.add(t2);
         assertEquals(100, project.getProgress());
@@ -201,8 +203,8 @@ public class TestProject {
         assertFalse(project.isCompleted());
         Task t1 = new Task("t1");
         Task t2 = new Task("t2");
-        t1.setStatus(Status.DONE);
-        t2.setStatus(Status.DONE);
+        t1.setProgress(100);
+        t2.setProgress(100);
         project.add(t1);
         project.add(t2);
         assertTrue(project.isCompleted());
@@ -237,5 +239,46 @@ public class TestProject {
         project.hashCode();
     }
 
+    @Test
+    public void testGetETCHours() {
+        Task t1 = new Task("t1");
+        Task t2 = new Task("t2");
+        Task t3 = new Task("t3");
+        Project p1 = new Project("p1");
+        t1.setEstimatedTimeToComplete(10);
+        t2.setEstimatedTimeToComplete(20);
+        t3.setEstimatedTimeToComplete(5);
+        p1.add(t1);
+        p1.add(t2);
+        project.add(t3);
+        project.add(p1);
+        assertEquals(35, project.getEstimatedTimeToComplete());
+        assertEquals(30, p1.getEstimatedTimeToComplete());
+    }
+
+    @Test
+    public void testCannotAddItself() {
+        project.add(project);
+        assertEquals(project.getNumberOfTasks(), 0);
+    }
+
+    @Test
+    public void testWooooooow() {
+        Task t1 = new Task("t1");
+        Task t2 = new Task("t2");
+        Task t3 = new Task("t3");
+        Project p1 = new Project("p1");
+        t1.setEstimatedTimeToComplete(10);
+        t2.setEstimatedTimeToComplete(20);
+        t3.setEstimatedTimeToComplete(5);
+        p1.add(t1);
+        p1.add(t2);
+        p1.setPriority(new Priority(1));
+        project.add(t3);
+        project.add(p1);
+        for (Todo t : project) {
+            System.out.println(t.toString());
+        }
+    }
 
 }

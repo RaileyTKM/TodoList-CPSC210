@@ -2,9 +2,7 @@ package model;
 
 import model.exceptions.NullArgumentException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 // Represents a Project, a collection of zero or more Tasks
 // Class Invariant: no duplicated task; order of tasks is preserved
@@ -26,7 +24,7 @@ public class Project extends Todo {
     // EFFECTS: task is added to this project (if it was not already part of it)
     //   throws NullArgumentException when task is null
     public void add(Todo task) {
-        if (!contains(task)) {
+        if (!contains(task) && task != this) {
             tasks.add(task);
         }
     }
@@ -39,6 +37,14 @@ public class Project extends Todo {
             tasks.remove(task);
         }
     }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
     
     // EFFECTS: returns the description of this project
     public String getDescription() {
@@ -47,7 +53,11 @@ public class Project extends Todo {
 
     @Override
     public int getEstimatedTimeToComplete() {
-        return etcHours;
+        int toReturn = 0;
+        for (Todo t : tasks) {
+            toReturn = toReturn + t.getEstimatedTimeToComplete();
+        }
+        return toReturn;
     }
 
     // EFFECTS: returns an unmodifiable list of tasks in this project.
@@ -60,7 +70,15 @@ public class Project extends Todo {
     //     the value returned is the average of the percentage of completion of
     //     all the tasks and sub-projects in this project.
     public int getProgress() {
-        return 0; //stub
+        double numerator = 0;
+        double denominator = 0;
+        double result;
+        for (Todo t : tasks) {
+            numerator = numerator + t.getProgress();
+            denominator = denominator + 100;
+        }
+        result = (numerator / denominator) * 100;
+        return (int) java.lang.Math.floor(result); //stub
     }
 
     // EFFECTS: returns the number of tasks (and sub-projects) in this project
@@ -98,5 +116,101 @@ public class Project extends Todo {
     @Override
     public int hashCode() {
         return Objects.hash(description);
+    }
+
+    @Override
+    public Iterator<Todo> iterator() {
+        return new ProjectIterator();
+    }
+
+
+    private class ProjectIterator implements Iterator<Todo> {
+        private Iterator<Todo> tasksIT;
+        private boolean important;
+        private boolean urgent;
+        private Priority priority;
+        private Todo toReturn;
+
+        public ProjectIterator() {
+            tasksIT = tasks.iterator();
+            important = true;
+            urgent = true;
+            priority = new Priority();
+            priority.setImportant(true);
+            priority.setUrgent(true);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return tasksIT.hasNext() && important && urgent;
+        }
+
+        @Override
+        public Todo next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            if (important && urgent) {
+                updateToReturn1();
+            } else if (important && !urgent) {
+                updatePriority();
+                updateToReturn2();
+            } else if (!important && urgent) {
+                updatePriority();
+                updateToReturn3();
+            } else {
+                updatePriority();
+                updateToReturn4();
+            }
+            return toReturn;
+        }
+
+        private void updatePriority() {
+            priority.setImportant(important);
+            priority.setUrgent(urgent);
+        }
+
+        private void updateToReturn1() {
+            if (tasksIT.next().getPriority().equals(priority)) {
+                toReturn = tasksIT.next();
+            } else if (!tasksIT.hasNext()) {
+                tasksIT = tasks.iterator();
+                urgent = !urgent;
+                toReturn = next();
+            } else {
+                toReturn = next();
+            }
+        }
+
+        private void updateToReturn2() {
+            if (tasksIT.next().getPriority().equals(priority)) {
+                toReturn = tasksIT.next();
+            } else if (!tasksIT.hasNext()) {
+                tasksIT = tasks.iterator();
+                urgent = !urgent;
+                important = !important;
+                toReturn = next();
+            } else {
+                toReturn = next();
+            }
+        }
+
+        private void updateToReturn3() {
+            if (tasksIT.next().getPriority().equals(priority)) {
+                toReturn = tasksIT.next();
+            } else if (!tasksIT.hasNext()) {
+                tasksIT = tasks.iterator();
+                urgent = !urgent;
+                toReturn = next();
+            } else {
+                toReturn = next();
+            }
+        }
+
+        private void updateToReturn4() {
+            if (tasksIT.next().getPriority().equals(priority) && tasksIT.hasNext()) {
+                toReturn = tasksIT.next();
+            }
+        }
     }
 }
