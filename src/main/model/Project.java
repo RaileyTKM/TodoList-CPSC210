@@ -126,23 +126,19 @@ public class Project extends Todo {
 
     private class ProjectIterator implements Iterator<Todo> {
         private Iterator<Todo> tasksIT;
-        private boolean important;
-        private boolean urgent;
-        private Priority priority;
         private Todo toReturn;
+        private int condition;
+        private int count;
 
         public ProjectIterator() {
             tasksIT = tasks.iterator();
-            important = true;
-            urgent = true;
-            priority = new Priority();
-            priority.setImportant(true);
-            priority.setUrgent(true);
+            condition = 1;
+            count = 0;
         }
 
         @Override
         public boolean hasNext() {
-            return tasksIT.hasNext() && (important || urgent);
+            return count < tasks.size() && condition < 5;
         }
 
         @Override
@@ -150,66 +146,22 @@ public class Project extends Todo {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            if (important && urgent) {
-                updateToReturn1();
-                updatePriority();
-            } else if (important) {
-                updateToReturn2();
-                updatePriority();
-            } else if (urgent) {
-                updateToReturn3();
-                updatePriority();
-            } else {
-                updateToReturn4();
-                updatePriority();
+            toReturn = null;
+            while (tasksIT.hasNext() && toReturn == null) {
+                Todo it = tasksIT.next();
+                toReturn = fitCondition(it.getPriority()) ? it : null;
+                if (!tasksIT.hasNext() && hasNext()) {
+                    tasksIT = tasks.iterator();
+                    condition++;
+                }
             }
+            count++;
             return toReturn;
         }
 
-        private void updatePriority() {
-            priority.setImportant(important);
-            priority.setUrgent(urgent);
+        private boolean fitCondition(Priority priority) {
+            return priority.equals(new Priority(condition));
         }
 
-        private void updateToReturn1() {
-            if (tasksIT.hasNext()) {
-                Todo it = tasksIT.next();
-                toReturn = it.getPriority().equals(priority) ? it : next();
-            } else {
-                tasksIT = tasks.iterator();
-                urgent = !urgent;
-                toReturn = next();
-            }
-        }
-
-        private void updateToReturn2() {
-            if (tasksIT.hasNext()) {
-                Todo it = tasksIT.next();
-                toReturn = it.getPriority().equals(priority) ? it : next();
-            } else {
-                tasksIT = tasks.iterator();
-                urgent = !urgent;
-                important = !important;
-                toReturn = next();
-            }
-        }
-
-        private void updateToReturn3() {
-            if (tasksIT.hasNext()) {
-                Todo it = tasksIT.next();
-                toReturn = it.getPriority().equals(priority) ? it : next();
-            } else {
-                tasksIT = tasks.iterator();
-                urgent = !urgent;
-                toReturn = next();
-            }
-        }
-
-        private void updateToReturn4() {
-            if (tasksIT.hasNext()) {
-                Todo it = tasksIT.next();
-                toReturn = it.getPriority().equals(priority) ? it : next();
-            }
-        }
     }
 }

@@ -268,21 +268,66 @@ public class TestProject {
     }
 
     @Test
-    public void testWooooooow() {
+    public void testNoSubProject() {
+        StringBuilder str = new StringBuilder();
+        for (Todo t : project) {
+            str.append(t.toString());
+        }
+        assertEquals(str.length(), 0);
+    }
+
+    @Test
+    public void testTwoSubsDifferentPriority() {
         Task t1 = new Task("t1");
         Task t2 = new Task("t2");
         Task t3 = new Task("t3");
         Project p1 = new Project("p1");
-        t1.setEstimatedTimeToComplete(10);
-        t2.setEstimatedTimeToComplete(20);
-        t3.setEstimatedTimeToComplete(5);
         p1.add(t1);
         p1.add(t2);
-        p1.setPriority(new Priority(1));
+        t3.setPriority(new Priority(2));
         project.add(t3);
         project.add(p1);
         for (Todo t : project) {
-            System.out.println(t.toString());
+            System.out.println(t.getDescription());
+        }
+    }
+
+    @Test
+    public void testSubsSamePriority() {
+        Task t1 = new Task("t1");
+        Task t2 = new Task("t2");
+        Task t3 = new Task("t3");
+        Project p1 = new Project("p1");
+        p1.add(t1);
+        p1.add(t2);
+        project.add(t3);
+        project.add(p1);
+        project.add(t1);
+        for (Todo t : project) {
+            System.out.println(t.getDescription());
+        }
+    }
+
+    @Test
+    public void testManySubs() {
+        Task t1 = new Task("t1");
+        Task t2 = new Task("t2");
+        Task t3 = new Task("t3");
+        Project p1 = new Project("p1");
+        Project p2 = new Project("p2");
+        p1.add(t1);
+        p1.add(t2);
+        p2.add(t3);
+        p2.setPriority(new Priority(1));
+        t1.setPriority(new Priority(2));
+        t2.setPriority(new Priority(3));
+        project.add(t3);
+        project.add(p1);
+        project.add(t1);
+        project.add(p2);
+        project.add(t2);
+        for (Todo t : project) {
+            System.out.println(t.getDescription());
         }
     }
 
