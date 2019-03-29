@@ -6,7 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -328,6 +330,18 @@ public class TestProject {
         project.add(t2);
         for (Todo t : project) {
             System.out.println(t.getDescription());
+        }
+    }
+
+    @Test
+    public void testIteratorException() {
+        Iterator<Todo> it = project.iterator();
+        assertFalse(it.hasNext());
+        try {
+            it.next();
+            fail("NoSuchElementException expected");
+        } catch (NoSuchElementException e) {
+            // expected
         }
     }
 
