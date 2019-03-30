@@ -38,13 +38,13 @@ public class Project extends Todo {
         }
     }
 
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
+//    public void setPriority(Priority priority) {
+//        this.priority = priority;
+//    }
 
-    public Priority getPriority() {
-        return priority;
-    }
+//    public Priority getPriority() {
+//        return priority;
+//    }
     
     // EFFECTS: returns the description of this project
     public String getDescription() {
