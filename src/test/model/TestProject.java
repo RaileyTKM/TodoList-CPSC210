@@ -287,8 +287,8 @@ public class TestProject {
         p1.add(t1);
         p1.add(t2);
         t3.setPriority(new Priority(2));
-        project.add(t3);
         project.add(p1);
+        project.add(t3);
         for (Todo t : project) {
             System.out.println(t.getDescription());
         }
