@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 import model.Task;
 import utility.JsonFileIO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // The PomoTODO GUI Application
