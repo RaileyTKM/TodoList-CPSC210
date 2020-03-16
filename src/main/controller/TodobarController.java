@@ -35,12 +35,16 @@ public class TodobarController implements Initializable {
     
     @FXML
     private Label descriptionLabel;
+
     @FXML
     private JFXHamburger todoActionsPopUpBurger;
+
     @FXML
     private StackPane todoActionsPopUpContainer;
+
     @FXML
     private JFXRippler todoOptionsPopUpRippler;
+
     @FXML
     private StackPane todoOptionsPopUpBurger;
     
